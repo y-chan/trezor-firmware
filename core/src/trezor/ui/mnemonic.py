@@ -1,12 +1,12 @@
 from trezor import io, loop, res, ui
-from trezor.crypto import bip39
+from trezor.crypto import bip39, slip39
 from trezor.ui import display
 from trezor.ui.button import BTN_CLICKED, ICON, Button
 
 if __debug__:
     from apps.debug import input_signal
 
-MNEMONIC_KEYS = ("abc", "def", "ghi", "jkl", "mno", "pqr", "stu", "vwx", "yz")
+MNEMONIC_KEYS = ("ab", "cd", "ef", "ghij", "klm", "nopq", "rs", "tuv", "wxyz")
 
 
 def key_buttons(keys):
@@ -31,6 +31,8 @@ class Input(Button):
         self.pending = False
 
     def edit(self, content: str, word: str, pending: bool):
+        # if len(content) > 3:
+        #     content = word
         self.word = word
         self.content = content
         self.pending = pending
@@ -140,8 +142,8 @@ class MnemonicKeyboard(ui.Widget):
                 return
 
     def edit(self, content, button=None, index=0):
-        word = bip39.find_word(content) or ""
-        mask = bip39.complete_word(content)
+        word = slip39.find_word(content, True) or ""
+        mask = slip39.complete_word(content, True)
 
         self.pbutton = button
         self.pindex = index

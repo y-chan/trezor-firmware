@@ -5,6 +5,11 @@ from .slip39_wordlist import wordlist
 # TODO
 MNEMONIC_KEYS = ("ab", "cd", "ef", "ghij", "klm", "nopq", "rs", "tuv", "wxyz")
 MNEMONIC_KEYS_LETTERS = dict()
+MNEMONIC_KEYS_STARTING_LETTERS = list()
+
+if not MNEMONIC_KEYS_STARTING_LETTERS:
+    for m in MNEMONIC_KEYS:
+        MNEMONIC_KEYS_STARTING_LETTERS += m[0]
 
 if not MNEMONIC_KEYS_LETTERS:
     for k, v in enumerate(MNEMONIC_KEYS, 1):
@@ -33,10 +38,37 @@ def find_words(prefix: str, t9=False, single=False) -> list:
         for key, word in wordlist:
             if key.startswith(button):
                 if single:
-                    return word
+                    for i, p in enumerate(prefix):
+                        if p in MNEMONIC_KEYS_STARTING_LETTERS:
+                            continue
+                        else:
+                            if word[i] != p:
+                                break
+                    else:
+                        return word
                 else:
                     words.append(word)
+
+    print("words before:", words)
+    print(MNEMONIC_KEYS_STARTING_LETTERS)
+    print(prefix)
+    for i, p in enumerate(prefix):
+        if p in MNEMONIC_KEYS_STARTING_LETTERS:
+            continue
+        else:
+            words = [w for w in words if w[i] == p]
+
+    print("words after:", words)
     return words
+
+
+def _is_starting_letter(l: str):
+    for m in MNEMONIC_KEYS:
+        if l == m[0]:
+            return True
+        if l in m:
+            return False
+    raise RuntimeError("Letter not found")
 
 
 def _prefix_to_pressed_buttons(prefix: str):
