@@ -11,6 +11,10 @@ variables:
   # run make paralel
   MAKEFLAGS: "-j10"
 
+  # pipenv cache
+  PIPENV_VENV_IN_PROJECT: "true"
+  PIPENV_CACHE_DIR: ".cache/"
+
 stages:
   - environment
   - prebuild
@@ -19,9 +23,8 @@ stages:
 
 cache:
   paths:
-    - .cache/pip/
-    - .cache/pipenv/
-    - /tmp/.venvs/
+    - .cache/
+    - .venv/
 
 before_script:
   - pipenv install
