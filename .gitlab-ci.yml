@@ -21,6 +21,7 @@ cache:
   paths:
     - .cache/pip/
     - .cache/pipenv/
+    - /tmp/.venvs/
 
 before_script:
   - pipenv install
