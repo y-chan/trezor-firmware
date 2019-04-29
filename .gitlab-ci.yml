@@ -17,6 +17,11 @@ stages:
   - build
   - test
 
+cache:
+  paths:
+    - .cache/pip/
+    - .cache/pipenv/
+
 before_script:
   - pipenv install
 
