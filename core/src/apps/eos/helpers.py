@@ -24,7 +24,7 @@ def eos_asset_to_string(asset: EosAsset) -> str:
     if precision > 0:
         integer = amount_digits[:-precision]
         if integer == "":
-            integer = '0'
+            integer = "0"
         fraction = amount_digits[-precision:]
 
         return "{}.{} {}".format(integer, fraction, symbol)
