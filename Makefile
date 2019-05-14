@@ -17,6 +17,7 @@ pystyle_check: ## run code style check on application sources and tests
 	flake8 --version
 	isort --version | awk '/VERSION/{print $$2}'
 	black --version
+	clang-format --version
 	@echo [FLAKE8]
 	@flake8 $(PY_FILES)
 	@echo [ISORT]
@@ -34,7 +35,7 @@ pystyle: ## apply code style on application sources and tests
 
 cstyle_check: ## run code style check on low-level C code
 	@echo [CLANG-FORMAT]
-	@./tools/clang-format-check $(C_FILES)
+	./tools/clang-format-check $(C_FILES)
 
 cstyle: ## apply code style on low-level C code
 	@echo [CLANG-FORMAT]
